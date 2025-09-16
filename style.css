@@ -1,21 +1,59 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
 .weather-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
-h1 {
-    color: #333;
+h1, h2 {
+    margin-top: 0;
+    font-weight: 500;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+#city-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+#search-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}
+
+#weather-info p {
+    margin: 0.5rem 0;
 }
