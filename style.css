@@ -166,3 +166,20 @@ h1 {
     font-size: 2rem;
     margin: 5px 0;
 }
+
+.app-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 2rem;
+}
+
+.weather-container, .forecast-container {
+    flex: 1 1 400px; 
+}
+
+.forecast-item {
+    flex-basis: calc(20% - 1rem); 
+}
