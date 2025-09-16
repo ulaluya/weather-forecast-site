@@ -126,3 +126,43 @@ h1 {
     margin-bottom: 1rem;
     display: block;
 }
+
+.forecast-container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#forecast-info {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.forecast-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.forecast-item:hover {
+    transform: scale(1.05);
+}
+
+.forecast-item .icon {
+    font-size: 2rem;
+    margin: 5px 0;
+}
