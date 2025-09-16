@@ -2,13 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const cityInput = document.getElementById('city-input');
     const searchButton = document.getElementById('search-button');
     const weatherInfo = document.getElementById('weather-info');
+    const forecastInfo = document.getElementById('forecast-info');
 
     const apiKey = 'abc252d7251b9e71445c2511d7221cb9'; 
 
     function getDeclinedCity(city) {
         const lastLetter = city.slice(-1).toLowerCase();
         const secondToLastLetter = city.slice(-2, -1).toLowerCase();
-
+        
         if (lastLetter === 'а') {
             return city.slice(0, -1) + 'е';
         } else if (lastLetter === 'я') {
@@ -23,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return 'Минске';
         }
         
-        // Для остальных городов оставляем как есть
         return city;
     }
 
@@ -44,17 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return iconMap[weatherCondition.toLowerCase()] || '❓';
     }
 
-    searchButton.addEventListener('click', () => {
-        const city = cityInput.value.trim();
-        if (city === '') {
-            weatherInfo.innerHTML = '<p>Пожалуйста, введите название города.</p>';
-            return;
-        }
+    function fetchWeatherData(city) {
+        const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`;
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=ru`;
 
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`;
         weatherInfo.innerHTML = '<p>Загрузка данных...</p>';
+        forecastInfo.innerHTML = '';
 
-        fetch(apiUrl)
+        fetch(currentUrl)
             .then(response => response.json())
             .then(data => {
                 if (data.cod === 200) {
@@ -78,8 +75,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Ошибка при получении данных:', error);
+                console.error('Ошибка при получении текущих данных:', error);
                 weatherInfo.innerHTML = '<p>Произошла ошибка. Пожалуйста, попробуйте позже.</p>';
             });
+
+        fetch(forecastUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.cod === '200') {
+                    const dailyForecasts = data.list.filter(item => item.dt_txt.includes("12:00:00"));
+                    forecastInfo.innerHTML = dailyForecasts.map(item => {
+                        const date = new Date(item.dt * 1000);
+                        const day = date.toLocaleDateString('ru-RU', { weekday: 'short' });
+                        const temp = item.main.temp.toFixed(0);
+                        const icon = getWeatherIcon(item.weather[0].description);
+                        
+                        return `
+                            <div class="forecast-item">
+                                <p>${day}</p>
+                                <div class="icon">${icon}</div>
+                                <p>${temp}°C</p>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при получении данных прогноза:', error);
+            });
+    }
+
+    searchButton.addEventListener('click', () => {
+        const city = cityInput.value.trim();
+        if (city === '') {
+            weatherInfo.innerHTML = '<p>Пожалуйста, введите название города.</p>';
+            forecastInfo.innerHTML = '';
+            return;
+        }
+        fetchWeatherData(city);
     });
 });
